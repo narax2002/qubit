@@ -15,5 +15,5 @@ void IFFT(Qubit& q);
 void FFT_iter(Qubit& q);
 void Multi(Qubit& out, const Qubit& a, const Qubit& b);
 
-}  // namespace algorithms
-}  // namespace qubit
+} // namespace algorithms
+} // namespace qubit

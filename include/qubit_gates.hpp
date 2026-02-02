@@ -25,5 +25,5 @@ void CCX(Qubit& q, int idx_a, int idx_b, int idx_c);
 void Toffoli(Qubit& q, int idx);
 void CR(Qubit& q, int idx_a, int idx_b, double phi);
 
-}  // namespace gates
-}  // namespace qubit
+} // namespace gates
+} // namespace qubit

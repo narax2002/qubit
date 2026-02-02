@@ -7,26 +7,25 @@
 
 constexpr double pi = 4.0 * std::atan(1.0);
 
-class Qubit
-{
+class Qubit {
 private:
-	int n;
-	int size_;
-	std::vector<std::complex<double>> q;
+    int n;
+    int size_;
+    std::vector<std::complex<double>> q;
 
 public:
-	Qubit();
-	explicit Qubit(int n);
+    Qubit();
+    explicit Qubit(int n);
 
-	void Initial();
-	int num_qubits() const;
-	int size() const;
+    void Initial();
+    int num_qubits() const;
+    int size() const;
 
-	std::vector<std::complex<double>>& state();
-	const std::vector<std::complex<double>>& state() const;
+    std::vector<std::complex<double>>& state();
+    const std::vector<std::complex<double>>& state() const;
 
-	friend std::ostream& operator<<(std::ostream& os, const Qubit& Q);
-	std::vector<double> Qnorm() const;
-	void PrintQnorm() const;
-	[[noreturn]] void PrintError(int nv) const;
+    friend std::ostream& operator<<(std::ostream& os, const Qubit& Q);
+    std::vector<double> Qnorm() const;
+    void PrintQnorm() const;
+    [[noreturn]] void PrintError(int nv) const;
 };
