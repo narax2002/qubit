@@ -1,4 +1,4 @@
-#include "qubit.h"
+#include "qubit.hpp"
 #include <omp.h>
 #include <chrono>
 
@@ -8,12 +8,12 @@
 /// "Quantum algorithm implementations for beginners", 10 Apr 2018
 /// </summary>
 
+using namespace std;
+
 chrono::high_resolution_clock::time_point t1, t2;
 #define START() t1 = chrono::high_resolution_clock::now();
 #define END() t2 = chrono::high_resolution_clock::now();
 #define PRINTTIME(msg, repeat) cout << "* " << msg << " time = " << (double)chrono::duration_cast<chrono::milliseconds>(t2 - t1).count() / repeat << " ms" << endl;
-
-
 
 int main()
 {

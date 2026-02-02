@@ -1,45 +1,46 @@
-#include "qubit.h"
+#include "qubit_algorithms.hpp"
+#include "qubit_gates.hpp"
 
-/// <summary>
-/// Shor algorithm
-/// Reference
-/// Experimental realization of Shor's quantum factoring algorithm using nuclear magnetic resonance, Nature 2001.
-/// The case N=15, a=7
-/// </summary>
+#include <iostream>
 
+namespace qubit {
+namespace algorithms {
 
-void Qubit::Shor()
+void Shor(Qubit& q)
 {
-	this->H(0);
-	this->H(1);
-	this->H(2);
+	gates::H(q, 0);
+	gates::H(q, 1);
+	gates::H(q, 2);
 
-	this->CX(4, 2);
-	this->CX(5, 2);
-	this->CX(5, 3);
-	this->CCX(3, 1, 5);
-	this->CX(5, 3);
-	this->CX(4, 6);
-	this->CCX(6, 1, 4);
-	this->CX(4, 6);
+	gates::CX(q, 4, 2);
+	gates::CX(q, 5, 2);
+	gates::CX(q, 5, 3);
+	gates::CCX(q, 3, 1, 5);
+	gates::CX(q, 5, 3);
+	gates::CX(q, 4, 6);
+	gates::CCX(q, 6, 1, 4);
+	gates::CX(q, 4, 6);
 
-	this->H(0);
-	this->CR(0, 1, - pi / 2);
-	this->H(1);
-	this->CR(0, 2, - pi / 4);
-	this->CR(1, 2, - pi / 2);
-	this->H(2);
-	
-	double* a_temp = this->Qnorm();
+	gates::H(q, 0);
+	gates::CR(q, 0, 1, -pi / 2);
+	gates::H(q, 1);
+	gates::CR(q, 0, 2, -pi / 4);
+	gates::CR(q, 1, 2, -pi / 2);
+	gates::H(q, 2);
+
+	std::vector<double> a_temp = q.Qnorm();
 	double temp = 0;
 	for (int j = 0; j < 16; ++j) temp += a_temp[8 * j];
-	cout << "(" << temp;
-	for (int i = 1;i < 8;++i) {
+	std::cout << "(" << temp;
+	for (int i = 1; i < 8; ++i) {
 		temp = 0;
 		for (int j = 0; j < 16; ++j) temp += a_temp[8 * j + i];
-		cout << ", " << temp;
+		std::cout << ", " << temp;
 	}
-	cout << ")" << endl;
+	std::cout << ")" << std::endl;
 
-	cout << *this << endl;
+	std::cout << q << std::endl;
 }
+
+}  // namespace algorithms
+}  // namespace qubit

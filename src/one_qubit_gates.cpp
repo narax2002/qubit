@@ -1,151 +1,163 @@
-#include "qubit.h"
+#include "qubit_gates.hpp"
 
-/// <summary>
-/// one-qubit gate 정의
-/// H: Hadamard, X: Pauli X, Y: Pauli Y, Z: Pauli X
-/// S, T, R: Phase shift
-/// </summary>
+#include <cmath>
 
-void Qubit::H(const int idx)
+// One-qubit gate definitions.
+
+namespace qubit {
+namespace gates {
+
+void H(Qubit& q, int idx)
 {
-	if (idx >= this->n) this->PrintError(1);
-	int len = this->size;
+	if (idx >= q.num_qubits()) q.PrintError(1);
+	int len = q.size();
 	int ref = 1 << idx;
-	complex<double>* temp = new complex<double>[len];
-	//complex<double> temp[len];
+	std::vector<std::complex<double>> temp(len);
+	auto& state = q.state();
 	for (int i = 0; i < len; ++i) {
 		if ((i & ref) == 0) {
 			int j = i | ref;
-			temp[i] = (this->q[i] + this->q[j]) / sqrt(2);
-			temp[j] = (this->q[i] - this->q[j]) / sqrt(2);
+			temp[i] = (state[i] + state[j]) / std::sqrt(2.0);
+			temp[j] = (state[i] - state[j]) / std::sqrt(2.0);
 		}
 	}
-	delete this->q;
-	this->q = temp;
+	state.swap(temp);
 }
 
-void Qubit::X(const int idx)
+void X(Qubit& q, int idx)
 {
-	if (idx >= this->n) this->PrintError(1);
-	int len = this->size;
+	if (idx >= q.num_qubits()) q.PrintError(1);
+	int len = q.size();
 	int ref = 1 << idx;
+	auto& state = q.state();
 	for (int i = 0; i < len; ++i) {
 		if ((i & ref) == 0) {
 			int j = i | ref;
-			complex<double> temp = this->q[i];
-			this->q[i] = this->q[j];
-			this->q[j] = temp;
+			std::complex<double> temp = state[i];
+			state[i] = state[j];
+			state[j] = temp;
 		}
 	}
 }
 
-void Qubit::SRX(const int idx)
+void SRX(Qubit& q, int idx)
 {
-	if (idx >= this->n) this->PrintError(1);
-	int len = this->size;
+	if (idx >= q.num_qubits()) q.PrintError(1);
+	int len = q.size();
 	int ref = 1 << idx;
-	complex<double> c_a(0.5, 0.5);
-	complex<double> c_b(0.5, -0.5);
+	std::complex<double> c_a(0.5, 0.5);
+	std::complex<double> c_b(0.5, -0.5);
+	auto& state = q.state();
 	for (int i = 0; i < len; ++i) {
 		if ((i & ref) == 0) {
 			int j = i | ref;
-			complex<double> temp_a = this->q[i];
-			complex<double> temp_b = this->q[j];
-			this->q[i] = c_a * temp_a + c_a * temp_b;
-			this->q[j] = c_b * temp_a + c_b * temp_b;
+			std::complex<double> temp_a = state[i];
+			std::complex<double> temp_b = state[j];
+			state[i] = c_a * temp_a + c_a * temp_b;
+			state[j] = c_b * temp_a + c_b * temp_b;
 		}
 	}
 }
 
-void Qubit::Y(const int idx)
+void Y(Qubit& q, int idx)
 {
-	if (idx >= this->n) this->PrintError(1);
-	int len = this->size;
+	if (idx >= q.num_qubits()) q.PrintError(1);
+	int len = q.size();
 	int ref = 1 << idx;
-	complex<double> c(0.0, 1.0);
+	std::complex<double> c(0.0, 1.0);
+	auto& state = q.state();
 	for (int i = 0; i < len; ++i) {
-		if ( !(i & ref)) {
+		if (!(i & ref)) {
 			int j = i | ref;
-			complex<double> temp = this->q[i]; // idx번째 큐빗이 |0>
-			this->q[i] = c * this->q[j];
-			this->q[j] = - c * temp;
+			std::complex<double> temp = state[i];
+			state[i] = c * state[j];
+			state[j] = -c * temp;
 		}
 	}
 }
 
-void Qubit::Z(const int idx)
+void Z(Qubit& q, int idx)
 {
-	if (idx >= this->n) this->PrintError(1);
-	int len = this->size;
+	if (idx >= q.num_qubits()) q.PrintError(1);
+	int len = q.size();
 	int ref = 1 << idx;
+	auto& state = q.state();
 	for (int i = 0; i < len; ++i) {
 		if (i & ref) {
-			this->q[i] *= -1.0;
+			state[i] *= -1.0;
 		}
 	}
 }
 
-void Qubit::S(const int idx)
+void S(Qubit& q, int idx)
 {
-	if (idx >= this->n) this->PrintError(1);
-	int len = this->size;
+	if (idx >= q.num_qubits()) q.PrintError(1);
+	int len = q.size();
 	int ref = 1 << idx;
-	complex<double> c(0.0, 1.0);
+	std::complex<double> c(0.0, 1.0);
+	auto& state = q.state();
 	for (int i = 0; i < len; ++i) {
 		if (i & ref) {
-			this->q[i] *= c;
+			state[i] *= c;
 		}
 	}
 }
 
-void Qubit::Sd(const int idx)
+void Sd(Qubit& q, int idx)
 {
-	if (idx >= this->n) this->PrintError(1);
-	int len = this->size;
+	if (idx >= q.num_qubits()) q.PrintError(1);
+	int len = q.size();
 	int ref = 1 << idx;
-	complex<double> c(0.0, -1.0);
+	std::complex<double> c(0.0, -1.0);
+	auto& state = q.state();
 	for (int i = 0; i < len; ++i) {
 		if (i & ref) {
-			this->q[i] *= c;
+			state[i] *= c;
 		}
 	}
 }
 
-void Qubit::T(const int idx)
+void T(Qubit& q, int idx)
 {
-	if (idx >= this->n) this->PrintError(1);
-	int len = this->size;
+	if (idx >= q.num_qubits()) q.PrintError(1);
+	int len = q.size();
 	int ref = 1 << idx;
-	complex<double> c(1.0/sqrt(2), 1.0/sqrt(2));
+	std::complex<double> c(1.0 / std::sqrt(2.0), 1.0 / std::sqrt(2.0));
+	auto& state = q.state();
 	for (int i = 0; i < len; ++i) {
 		if (i & ref) {
-			this->q[i] *= c;
+			state[i] *= c;
 		}
 	}
 }
 
-void Qubit::Td(const int idx)
+void Td(Qubit& q, int idx)
 {
-	if (idx >= this->n) this->PrintError(1);
-	int len = this->size;
+	if (idx >= q.num_qubits()) q.PrintError(1);
+	int len = q.size();
 	int ref = 1 << idx;
-	complex<double> c(1.0 / sqrt(2), -1.0 / sqrt(2));
+	std::complex<double> c(1.0 / std::sqrt(2.0), -1.0 / std::sqrt(2.0));
+	auto& state = q.state();
 	for (int i = 0; i < len; ++i) {
 		if (i & ref) {
-			this->q[i] *= c;
+			state[i] *= c;
 		}
 	}
 }
 
-void Qubit::R(const int idx, double phi)
+void R(Qubit& q, int idx, double phi)
 {
-	if (idx >= this->n) this->PrintError(1);
-	int len = this->size;
+	if (idx >= q.num_qubits()) q.PrintError(1);
+	int len = q.size();
 	int ref = 1 << idx;
-	complex<double> c = polar(1.0, phi);
+	std::complex<double> c = std::polar(1.0, phi);
+	auto& state = q.state();
 	for (int i = 0; i < len; ++i) {
 		if (i & ref) {
-			this->q[i] *= c;
+			state[i] *= c;
 		}
 	}
 }
+
+}  // namespace gates
+}  // namespace qubit
