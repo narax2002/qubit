@@ -10,7 +10,7 @@ void Bernstein_Vazirani(Qubit& q, int s) {
     int dim = q.num_qubits() - 1;
     int len = 1 << dim;
 
-    if (len <= s)
+    if (s < 0 || len <= s)
         q.PrintError(3);
     q.Initial();
 

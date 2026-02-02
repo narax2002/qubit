@@ -11,7 +11,7 @@ void Grover(Qubit& q, int k) {
     int dim = q.num_qubits() - 1; // last qubit is ancilla
     int len = 1 << dim;
 
-    if (len <= k)
+    if (k < 0 || len <= k)
         q.PrintError(3);
     q.Initial();
 
