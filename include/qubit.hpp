@@ -17,14 +17,14 @@ public:
     explicit Qubit(int n);
 
     void Initial();
-    int num_qubits() const;
-    int size() const;
+    [[nodiscard]] int num_qubits() const;
+    [[nodiscard]] int size() const;
 
-    std::vector<std::complex<double>>& state();
-    const std::vector<std::complex<double>>& state() const;
+    [[nodiscard]] std::vector<std::complex<double>>& state();
+    [[nodiscard]] const std::vector<std::complex<double>>& state() const;
 
     friend std::ostream& operator<<(std::ostream& os, const Qubit& Q);
-    std::vector<double> Qnorm() const;
+    [[nodiscard]] std::vector<double> Qnorm() const;
     void PrintQnorm() const;
     [[noreturn]] void PrintError(int nv) const;
 };
