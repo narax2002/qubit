@@ -8,8 +8,7 @@
 
 Qubit::Qubit() {
     n_ = 1;
-    size_ = 2;
-    q_.assign(size_, std::complex<double>(0.0, 0.0));
+    q_.assign(2, std::complex<double>(0.0, 0.0));
     q_[0] = std::complex<double>(1.0, 0.0);
 }
 
@@ -18,14 +17,14 @@ Qubit::Qubit(int nv) {
         PrintError(2);
     }
     n_ = nv;
-    size_ = 1 << nv;
-    q_.assign(size_, std::complex<double>(0.0, 0.0));
+    q_.assign(1 << nv, std::complex<double>(0.0, 0.0));
     q_[0] = std::complex<double>(1.0, 0.0);
 }
 
 void Qubit::Initial() {
     q_[0] = std::complex<double>(1.0, 0.0);
-    for (int i = 1; i < size_; ++i) {
+    int len = static_cast<int>(q_.size());
+    for (int i = 1; i < len; ++i) {
         q_[i] = std::complex<double>(0.0, 0.0);
     }
 }
@@ -35,7 +34,7 @@ int Qubit::num_qubits() const {
 }
 
 int Qubit::size() const {
-    return size_;
+    return static_cast<int>(q_.size());
 }
 
 std::vector<std::complex<double>>& Qubit::state() {
@@ -49,7 +48,8 @@ const std::vector<std::complex<double>>& Qubit::state() const {
 std::ostream& operator<<(std::ostream& os, const Qubit& Q) {
     // os << "(";
     os << Q.q_[0];
-    for (int i = 1; i < Q.size_; ++i) {
+    int len = static_cast<int>(Q.q_.size());
+    for (int i = 1; i < len; ++i) {
         os << "," << Q.q_[i];
     }
     // os << ")";
@@ -58,8 +58,9 @@ std::ostream& operator<<(std::ostream& os, const Qubit& Q) {
 }
 
 std::vector<double> Qubit::Qnorm() const {
-    std::vector<double> result(size_);
-    for (int i = 0; i < size_; ++i) {
+    int len = static_cast<int>(q_.size());
+    std::vector<double> result(len);
+    for (int i = 0; i < len; ++i) {
         result[i] = std::norm(q_[i]);
     }
 
@@ -69,10 +70,11 @@ std::vector<double> Qubit::Qnorm() const {
 void Qubit::PrintQnorm() const {
     std::vector<double> temp = this->Qnorm();
     std::cout << "(";
-    for (int i = 0; i < size_ - 1; ++i) {
+    int len = static_cast<int>(temp.size());
+    for (int i = 0; i < len - 1; ++i) {
         std::cout << temp[i] << ", ";
     }
-    std::cout << temp[size_ - 1] << ")" << std::endl;
+    std::cout << temp[len - 1] << ")" << std::endl;
 }
 
 void Qubit::PrintError(int n) const {
