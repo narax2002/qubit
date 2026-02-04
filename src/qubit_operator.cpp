@@ -7,28 +7,28 @@
 /// </summary>
 
 Qubit::Qubit() {
-    n = 1;
+    n_ = 1;
     size_ = 2;
-    q.assign(size_, std::complex<double>(0.0, 0.0));
-    q[0] = std::complex<double>(1.0, 0.0);
+    q_.assign(size_, std::complex<double>(0.0, 0.0));
+    q_[0] = std::complex<double>(1.0, 0.0);
 }
 
 Qubit::Qubit(int nv) {
-    n = nv;
+    n_ = nv;
     size_ = 1 << nv;
-    q.assign(size_, std::complex<double>(0.0, 0.0));
-    q[0] = std::complex<double>(1.0, 0.0);
+    q_.assign(size_, std::complex<double>(0.0, 0.0));
+    q_[0] = std::complex<double>(1.0, 0.0);
 }
 
 void Qubit::Initial() {
-    q[0] = std::complex<double>(1.0, 0.0);
+    q_[0] = std::complex<double>(1.0, 0.0);
     for (int i = 1; i < size_; ++i) {
-        q[i] = std::complex<double>(0.0, 0.0);
+        q_[i] = std::complex<double>(0.0, 0.0);
     }
 }
 
 int Qubit::num_qubits() const {
-    return n;
+    return n_;
 }
 
 int Qubit::size() const {
@@ -36,18 +36,18 @@ int Qubit::size() const {
 }
 
 std::vector<std::complex<double>>& Qubit::state() {
-    return q;
+    return q_;
 }
 
 const std::vector<std::complex<double>>& Qubit::state() const {
-    return q;
+    return q_;
 }
 
 std::ostream& operator<<(std::ostream& os, const Qubit& Q) {
     // os << "(";
-    os << Q.q[0];
+    os << Q.q_[0];
     for (int i = 1; i < Q.size_; ++i) {
-        os << "," << Q.q[i];
+        os << "," << Q.q_[i];
     }
     // os << ")";
 
@@ -57,7 +57,7 @@ std::ostream& operator<<(std::ostream& os, const Qubit& Q) {
 std::vector<double> Qubit::Qnorm() const {
     std::vector<double> result(size_);
     for (int i = 0; i < size_; ++i) {
-        result[i] = std::norm(q[i]);
+        result[i] = std::norm(q_[i]);
     }
 
     return result;

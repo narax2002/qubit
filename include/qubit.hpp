@@ -9,9 +9,9 @@ constexpr double pi = 4.0 * std::atan(1.0);
 
 class Qubit {
 private:
-    int n;
+    int n_;
     int size_;
-    std::vector<std::complex<double>> q;
+    std::vector<std::complex<double>> q_;
 
 public:
     Qubit();
