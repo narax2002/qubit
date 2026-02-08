@@ -3,6 +3,7 @@
 #include "qubit_gates.hpp"
 #include <chrono>
 #include <omp.h>
+#include <string>
 
 /// <summary>
 /// Personal study  (Qubit algorithm implementation personal Study)
@@ -12,26 +13,58 @@
 
 using namespace std;
 
-chrono::high_resolution_clock::time_point t1, t2;
-#define START() t1 = chrono::high_resolution_clock::now();
-#define END() t2 = chrono::high_resolution_clock::now();
-#define PRINTTIME(msg, repeat)                                                                     \
-    cout << "* " << msg << " time = "                                                              \
-         << (double)chrono::duration_cast<chrono::milliseconds>(t2 - t1).count() / repeat << " ms" \
-         << endl;
+class Timer {
+public:
+    static void start() { getInstance()->start_time = chrono::high_resolution_clock::now(); }
+
+    static void stop() { getInstance()->end_time = chrono::high_resolution_clock::now(); }
+
+    static void printTime(const string& msg, int repeat) {
+        cout << "* " << msg << " time = " << elapsedMilliseconds() / repeat << " ms" << endl;
+    }
+
+    Timer(const Timer&) = delete;
+    Timer& operator=(const Timer&) = delete;
+    Timer(Timer&&) = delete;
+    Timer& operator=(Timer&&) = delete;
+    ~Timer() = default;
+
+private:
+    static Timer* getInstance() {
+        static Timer instance;
+        return &instance;
+    }
+
+    Timer() = default;
+
+    static double elapsedMilliseconds() {
+        return (double)chrono::duration_cast<chrono::milliseconds>(getInstance()->end_time -
+                                                                   getInstance()->start_time)
+            .count();
+    }
+
+    chrono::high_resolution_clock::time_point start_time;
+    chrono::high_resolution_clock::time_point end_time;
+};
+
+using namespace qubit;
 
 int main() {
-    printf("There are %d max threads\n", omp_get_max_threads());
-    printf("There are %d threads currently\n", omp_get_num_threads());
+    std::cout << "There are " << omp_get_max_threads() << " max threads" << std::endl;
+    std::cout << "There are " << omp_get_num_threads() << " threads currently" << std::endl;
 
 #pragma omp parallel
     {
         if (omp_in_parallel()) {
-            printf("In parallel: thread number = %d / %d\n", omp_get_thread_num(),
-                   omp_get_num_threads());
+            std::string message =
+                "In parallel: thread number = " + std::to_string(omp_get_thread_num()) + " / " +
+                std::to_string(omp_get_num_threads()) + "\n";
+            std::cout << message;
         } else {
-            printf("Out parallel: thread number = %d / %d\n", omp_get_thread_num(),
-                   omp_get_num_threads());
+            std::string message =
+                "Not in parallel: thread number = " + std::to_string(omp_get_thread_num()) + " / " +
+                std::to_string(omp_get_num_threads()) + "\n";
+            std::cout << message;
         }
     }
 
@@ -40,52 +73,65 @@ int main() {
 
     int N = 18;
 
-    // START();
-    // Qubit q1(N), q2(N), q3(N);
-    // END();
-    // PRINTTIME("Gnerate qubit", 3);
+    Timer::start();
+    Qubit q1(N);
+    Qubit q2(N);
+    Timer::stop();
+    Timer::printTime("Generate qubit", 2);
 
-    // START();
-    // q1.X(1);
-    // q2.X(2);
-    // END();
-    // PRINTTIME("X gate", 2);
+    Timer::start();
+    q1.initial();
+    q2.initial();
+    Timer::stop();
+    Timer::printTime("Initialize qubit", 2);
 
-    // START();
-    // q1.FFT();
-    // q2.FFT();
-    // END();
-    // PRINTTIME("FFT", 2);
+    Timer::start();
+    gates::H(q1, 0);
+    gates::H(q2, 0);
+    Timer::stop();
+    Timer::printTime("H gate", 2);
 
-    // START();
-    // q1.IFFT();
-    // q2.IFFT();
-    // END();
-    // PRINTTIME("IFFT", 2);
+    Timer::start();
+    gates::X(q1, 1);
+    gates::X(q2, 1);
+    Timer::stop();
+    Timer::printTime("X gate", 2);
 
-    // START();
-    // q1.QFT();
-    // q2.QFT();
-    // END();
-    // PRINTTIME("QFT", 2);
+    Timer::start();
+    algorithms::FFT(q1);
+    algorithms::FFT(q2);
+    Timer::stop();
+    Timer::printTime("FFT", 2);
 
-    // START();
-    // q1.IFFT();
-    // q2.IFFT();
-    // END();
-    // PRINTTIME("IFFT", 2);
+    Timer::start();
+    algorithms::IFFT(q1);
+    algorithms::IFFT(q2);
+    Timer::stop();
+    Timer::printTime("IFFT", 2);
 
-    // START();
-    // q1.FFT_iter();
-    // q2.FFT_iter();
-    // END();
-    // PRINTTIME("FFT_iter", 2);
+    Timer::start();
+    algorithms::QFT(q1);
+    algorithms::QFT(q2);
+    Timer::stop();
+    Timer::printTime("QFT", 2);
 
-    // START();
-    // q1.IFFT();
-    // q2.IFFT();
-    // END();
-    // PRINTTIME("IFFT", 2);
+    Timer::start();
+    algorithms::IFFT(q1);
+    algorithms::IFFT(q2);
+    Timer::stop();
+    Timer::printTime("IFFT", 2);
+
+    Timer::start();
+    algorithms::FFT_iter(q1);
+    algorithms::FFT_iter(q2);
+    Timer::stop();
+    Timer::printTime("FFT_iter", 2);
+
+    Timer::start();
+    algorithms::IFFT(q1);
+    algorithms::IFFT(q2);
+    Timer::stop();
+    Timer::printTime("IFFT", 2);
 
     return 0;
 }

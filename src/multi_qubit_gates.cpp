@@ -1,15 +1,15 @@
+#include "qubit_exceptions.hpp"
 #include "qubit_gates.hpp"
 
 #include <cmath>
 
 // Multi-qubit gate definitions.
 
-namespace qubit {
-namespace gates {
+namespace qubit::gates {
 
 static inline void validate_index(const Qubit& q, int idx) {
     if (idx < 0 || idx >= q.num_qubits()) {
-        q.PrintError(1);
+        printError(1);
     }
 }
 
@@ -25,8 +25,9 @@ static inline void validate_indices3(const Qubit& q, int idx_a, int idx_b, int i
 }
 
 void SWAP(Qubit& q, int idx_a, int idx_b) {
-    if (q.num_qubits() < 2)
-        q.PrintError(2);
+    if (q.num_qubits() < 2) {
+        printError(2);
+    }
     validate_indices2(q, idx_a, idx_b);
 
     int len = q.size();
@@ -44,8 +45,9 @@ void SWAP(Qubit& q, int idx_a, int idx_b) {
 }
 
 void CX(Qubit& q, int idx_a, int idx_b) {
-    if (q.num_qubits() < 2)
-        q.PrintError(2);
+    if (q.num_qubits() < 2) {
+        printError(2);
+    }
     validate_indices2(q, idx_a, idx_b);
 
     int len = q.size();
@@ -65,8 +67,9 @@ void CX(Qubit& q, int idx_a, int idx_b) {
 }
 
 void CZ(Qubit& q, int idx_a, int idx_b) {
-    if (q.num_qubits() < 2)
-        q.PrintError(2);
+    if (q.num_qubits() < 2) {
+        printError(2);
+    }
     validate_indices2(q, idx_a, idx_b);
 
     int len = q.size();
@@ -87,8 +90,9 @@ void CZ(Qubit& q, int idx_a, int idx_b) {
 }
 
 void CCX(Qubit& q, int idx_a, int idx_b, int idx_c) {
-    if (q.num_qubits() < 3)
-        q.PrintError(2);
+    if (q.num_qubits() < 3) {
+        printError(2);
+    }
     validate_indices3(q, idx_a, idx_b, idx_c);
 
     int len = q.size();
@@ -112,8 +116,9 @@ void Toffoli(Qubit& q, int idx) {
     // BUG: Toffoli gate should have 3 parameters (2 control + 1 target)
     // This implementation only swaps last two states, which is incorrect
     // Should be similar to CCX gate with proper control logic
-    if (q.num_qubits() < 2)
-        q.PrintError(2);
+    if (q.num_qubits() < 2) {
+        printError(2);
+    }
     validate_index(q, idx);
     int len = q.size();
     int ref = 1 << idx;
@@ -127,8 +132,9 @@ void Toffoli(Qubit& q, int idx) {
 }
 
 void CR(Qubit& q, int idx_a, int idx_b, double phi) {
-    if (q.num_qubits() < 2)
-        q.PrintError(2);
+    if (q.num_qubits() < 2) {
+        printError(2);
+    }
     validate_indices2(q, idx_a, idx_b);
     int len = q.size();
     int ref_a = 1 << idx_a;
@@ -146,5 +152,4 @@ void CR(Qubit& q, int idx_a, int idx_b, double phi) {
     }
 }
 
-} // namespace gates
-} // namespace qubit
+} // namespace qubit::gates

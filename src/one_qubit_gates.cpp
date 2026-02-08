@@ -1,15 +1,15 @@
+#include "qubit_exceptions.hpp"
 #include "qubit_gates.hpp"
 
 #include <cmath>
 
 // One-qubit gate definitions.
 
-namespace qubit {
-namespace gates {
+namespace qubit::gates {
 
 static inline void validate_index(const Qubit& q, int idx) {
     if (idx < 0 || idx >= q.num_qubits()) {
-        q.PrintError(1);
+        printError(1);
     }
 }
 
@@ -155,5 +155,4 @@ void R(Qubit& q, int idx, double phi) {
     }
 }
 
-} // namespace gates
-} // namespace qubit
+} // namespace qubit::gates

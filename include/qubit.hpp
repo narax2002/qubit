@@ -7,6 +7,8 @@
 
 constexpr double PI = 3.1415926535897932384646;
 
+namespace qubit {
+
 class Qubit {
 private:
     int n_;
@@ -16,7 +18,7 @@ public:
     Qubit();
     explicit Qubit(int n);
 
-    void Initial();
+    void initial();
     [[nodiscard]] int num_qubits() const;
     [[nodiscard]] int size() const;
 
@@ -25,6 +27,7 @@ public:
 
     friend std::ostream& operator<<(std::ostream& os, const Qubit& Q);
     [[nodiscard]] std::vector<double> Qnorm() const;
-    void PrintQnorm() const;
-    [[noreturn]] void PrintError(int nv) const;
+    void printQnorm() const;
 };
+
+} // namespace qubit

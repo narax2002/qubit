@@ -3,8 +3,7 @@
 
 #include <iostream>
 
-namespace qubit {
-namespace algorithms {
+namespace qubit::algorithms {
 
 void Shor(Qubit& q) {
     gates::H(q, 0);
@@ -29,13 +28,15 @@ void Shor(Qubit& q) {
 
     std::vector<double> a_temp = q.Qnorm();
     double temp = 0;
-    for (int j = 0; j < 16; ++j)
+    for (int j = 0; j < 16; ++j) {
         temp += a_temp[8 * j];
+    }
     std::cout << "(" << temp;
     for (int i = 1; i < 8; ++i) {
         temp = 0;
-        for (int j = 0; j < 16; ++j)
+        for (int j = 0; j < 16; ++j) {
             temp += a_temp[8 * j + i];
+        }
         std::cout << ", " << temp;
     }
     std::cout << ")" << std::endl;
@@ -43,5 +44,4 @@ void Shor(Qubit& q) {
     std::cout << q << std::endl;
 }
 
-} // namespace algorithms
-} // namespace qubit
+} // namespace qubit::algorithms

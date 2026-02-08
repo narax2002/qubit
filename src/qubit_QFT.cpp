@@ -3,8 +3,7 @@
 
 #include <cmath>
 
-namespace qubit {
-namespace algorithms {
+namespace qubit::algorithms {
 
 void QFT(Qubit& q) {
     int nv = q.num_qubits();
@@ -123,5 +122,4 @@ void FFT_iter(Qubit& q) {
     }
 }
 
-} // namespace algorithms
-} // namespace qubit
+} // namespace qubit::algorithms
