@@ -15,7 +15,7 @@ void Grover(Qubit& q, int k) {
         q.PrintError(3);
     q.Initial();
 
-    int MaxIter = static_cast<int>(std::ceil(pi * std::pow(2.0, static_cast<double>(dim) / 2) / 4));
+    int MaxIter = static_cast<int>(std::ceil(PI * std::pow(2.0, static_cast<double>(dim) / 2) / 4));
     std::cout << "MaxIter = " << MaxIter << std::endl;
 
     // State preparation

@@ -2,8 +2,7 @@
 
 #include "qubit.hpp"
 
-namespace qubit {
-namespace gates {
+namespace qubit::gates {
 
 // One-qubit gates
 void H(Qubit& q, int idx);
@@ -25,5 +24,4 @@ void CCX(Qubit& q, int idx_a, int idx_b, int idx_c);
 void Toffoli(Qubit& q, int idx);
 void CR(Qubit& q, int idx_a, int idx_b, double phi);
 
-} // namespace gates
-} // namespace qubit
+} // namespace qubit::gates

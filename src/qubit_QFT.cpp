@@ -15,7 +15,7 @@ void QFT(Qubit& q) {
     for (int i = 0; i < nv; ++i) {
         int k = 1 << i;
         for (int j = 0; j < i; ++j) {
-            gates::CR(q, j, i, pi / k);
+            gates::CR(q, j, i, PI / k);
             k = k >> 1;
         }
         gates::H(q, i);
@@ -28,7 +28,7 @@ void FFT(Qubit& q) {
     for (int m = 1; m <= n; ++m) {
         int dm = 1 << (n - m);
         int D = 1 << m;
-        std::complex<double> xi = std::polar(1.0, -2.0 * pi / D);
+        std::complex<double> xi = std::polar(1.0, -2.0 * PI / D);
         Qubit temp(n);
 
         D = 1 << (m - 1);
@@ -56,7 +56,7 @@ void IFFT(Qubit& q) {
     for (int m = 1; m <= n; ++m) {
         int dm = 1 << (n - m);
         int D = 1 << m;
-        std::complex<double> xi = std::polar(1.0, 2.0 * pi / D);
+        std::complex<double> xi = std::polar(1.0, 2.0 * PI / D);
         Qubit temp(n);
 
         D = 1 << (m - 1);
@@ -90,7 +90,7 @@ void Multi(Qubit& out, const Qubit& a, const Qubit& b) {
 }
 
 void FFT_iter(Qubit& q) {
-    std::complex<double> w = std::polar(1.0, 2.0 * pi / q.size());
+    std::complex<double> w = std::polar(1.0, 2.0 * PI / q.size());
     if (q.num_qubits() == 1) {
         auto& state = q.state();
         std::complex<double> temp_a = state[0];

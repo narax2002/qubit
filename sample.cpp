@@ -1,10 +1,12 @@
 #include "qubit.hpp"
+#include "qubit_algorithms.hpp"
+#include "qubit_gates.hpp"
 #include <chrono>
 #include <omp.h>
 
 /// <summary>
 /// Personal study  (Qubit algorithm implementation personal Study)
-/// Refference
+/// Reference
 /// "Quantum algorithm implementations for beginners", 10 Apr 2018
 /// </summary>
 
@@ -33,10 +35,10 @@ int main() {
         }
     }
 
-    // std::cout << fixed;
-    // std::cout.precision(4);
+    std::cout << fixed;
+    std::cout.precision(4);
 
-    // int N = 18;
+    int N = 18;
 
     // START();
     // Qubit q1(N), q2(N), q3(N);

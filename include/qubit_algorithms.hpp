@@ -2,8 +2,7 @@
 
 #include "qubit.hpp"
 
-namespace qubit {
-namespace algorithms {
+namespace qubit::algorithms {
 
 void Grover(Qubit& q, int k);
 void Bernstein_Vazirani(Qubit& q, int s);
@@ -15,5 +14,4 @@ void IFFT(Qubit& q);
 void FFT_iter(Qubit& q);
 void Multi(Qubit& out, const Qubit& a, const Qubit& b);
 
-} // namespace algorithms
-} // namespace qubit
+} // namespace qubit::algorithms

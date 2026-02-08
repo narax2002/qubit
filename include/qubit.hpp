@@ -5,7 +5,7 @@
 #include <iostream>
 #include <vector>
 
-constexpr double pi = 4.0 * std::atan(1.0);
+constexpr double PI = 3.1415926535897932384646;
 
 class Qubit {
 private:

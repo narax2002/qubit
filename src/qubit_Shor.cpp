@@ -21,10 +21,10 @@ void Shor(Qubit& q) {
     gates::CX(q, 4, 6);
 
     gates::H(q, 0);
-    gates::CR(q, 0, 1, -pi / 2);
+    gates::CR(q, 0, 1, -PI / 2);
     gates::H(q, 1);
-    gates::CR(q, 0, 2, -pi / 4);
-    gates::CR(q, 1, 2, -pi / 2);
+    gates::CR(q, 0, 2, -PI / 4);
+    gates::CR(q, 1, 2, -PI / 2);
     gates::H(q, 2);
 
     std::vector<double> a_temp = q.Qnorm();
