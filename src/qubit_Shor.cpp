@@ -1,8 +1,6 @@
 #include "qubit_algorithms.hpp"
 #include "qubit_gates.hpp"
 
-#include <iostream>
-
 namespace qubit::algorithms {
 
 void Shor(Qubit& q) {
@@ -25,23 +23,6 @@ void Shor(Qubit& q) {
     gates::CR(q, 0, -PI / 4, 2);
     gates::CR(q, 1, -PI / 2, 2);
     gates::H(q, 2);
-
-    std::vector<double> a_temp = q.Qnorm();
-    double temp = 0;
-    for (int j = 0; j < 16; ++j) {
-        temp += a_temp[8 * j];
-    }
-    std::cout << "(" << temp;
-    for (int i = 1; i < 8; ++i) {
-        temp = 0;
-        for (int j = 0; j < 16; ++j) {
-            temp += a_temp[8 * j + i];
-        }
-        std::cout << ", " << temp;
-    }
-    std::cout << ")" << std::endl;
-
-    std::cout << q << std::endl;
 }
 
 } // namespace qubit::algorithms
