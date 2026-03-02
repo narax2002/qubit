@@ -14,7 +14,7 @@ void QFT(Qubit& q) {
     for (int i = 0; i < nv; ++i) {
         int k = 1 << i;
         for (int j = 0; j < i; ++j) {
-            gates::CR(q, j, i, PI / k);
+            gates::CR(q, j, PI / k, i);
             k = k >> 1;
         }
         gates::H(q, i);

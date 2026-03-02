@@ -102,44 +102,26 @@ void CCX(Qubit& q, int control_a_idx, int control_b_idx, int target_idx) {
     }
 }
 
-void Toffoli(Qubit& q, int idx) {
-    // BUG: Toffoli gate should have 3 parameters (2 control + 1 target)
-    // This implementation only swaps last two states, which is incorrect
-    // Should be similar to CCX gate with proper control logic
+void CR(Qubit& q, int control_idx, double phi, int target_idx) {
     if (q.num_qubits() < 2) {
         printError(2);
     }
-    validate_index(q, idx);
+    validate_indices2(q, control_idx, target_idx);
     int len = q.size();
-    int ref = 1 << idx;
-
-    auto& state = q.state();
-    int i = len - 1;
-    int j = i ^ ref;
-    std::complex<double> temp = state[i];
-    state[i] = state[j];
-    state[j] = temp;
-}
-
-void CR(Qubit& q, int idx_a, int idx_b, double phi) {
-    if (q.num_qubits() < 2) {
-        printError(2);
-    }
-    validate_indices2(q, idx_a, idx_b);
-    int len = q.size();
-    int ref_a = 1 << idx_a;
-    int ref_b = 1 << idx_b;
+    int ref_a = 1 << control_idx;
+    int ref_b = 1 << target_idx;
     std::complex<double> c = std::polar(1.0, phi);
     auto& state = q.state();
     for (int i = 0; i < len; ++i) {
-        // BUG: Should only check control (ref_a), not both qubits
-        // Controlled-R applies phase when control=1, regardless of target state
-        // Correct condition: if ((i & ref_a) && (i & ref_b))
-        // But for standard CR, it should be: if (i & ref_a) { apply phase to |11> }
         if ((i & ref_a) && (i & ref_b)) {
             state[i] *= c;
         }
     }
+}
+
+void Toffoli(Qubit& q, int control_a_idx, int control_b_idx, int target_idx) {
+    // Toffoli is equivalent to CCX (two controls, one target).
+    CCX(q, control_a_idx, control_b_idx, target_idx);
 }
 
 } // namespace qubit::gates

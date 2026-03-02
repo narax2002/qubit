@@ -21,7 +21,7 @@ void SWAP(Qubit& q, int idx_a, int idx_b);
 void CX(Qubit& q, int control_idx, int target_idx);
 void CZ(Qubit& q, int control_idx, int target_idx);
 void CCX(Qubit& q, int control_a_idx, int control_b_idx, int target_idx);
-void Toffoli(Qubit& q, int idx);
-void CR(Qubit& q, int idx_a, int idx_b, double phi);
+void CR(Qubit& q, int control_idx, double phi, int target_idx);
+void Toffoli(Qubit& q, int control_a_idx, int control_b_idx, int target_idx);
 
 } // namespace qubit::gates
