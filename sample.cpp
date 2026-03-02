@@ -133,5 +133,10 @@ int main() {
     Timer::stop();
     Timer::printTime("IFFT", 2);
 
+    // Timer::start();
+    // algorithms::Shor(q1);
+    // Timer::stop();
+    // Timer::printTime("Shor", 1);
+
     return 0;
 }

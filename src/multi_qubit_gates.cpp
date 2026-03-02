@@ -44,21 +44,19 @@ void SWAP(Qubit& q, int idx_a, int idx_b) {
     }
 }
 
-void CX(Qubit& q, int idx_a, int idx_b) {
+void CX(Qubit& q, int control_idx, int target_idx) {
     if (q.num_qubits() < 2) {
         printError(2);
     }
-    validate_indices2(q, idx_a, idx_b);
+    validate_indices2(q, control_idx, target_idx);
 
     int len = q.size();
-    int ref_a = 1 << idx_a;
-    int ref_b = 1 << idx_b;
+    int ref_a = 1 << control_idx;
+    int ref_b = 1 << target_idx;
     auto& state = q.state();
     for (int i = 0; i < len; ++i) {
-        // BUG: Should be (i & ref_a) instead of ((i & ref_a) == 0)
-        // Control qubit (ref_a) should be 1, not 0
-        if (((i & ref_a) == 0) && (i & ref_b)) {
-            int j = i | ref_a;
+        if ((i & ref_a) && ((i & ref_b) == 0)) {
+            int j = i | ref_b;
             std::complex<double> temp = state[i];
             state[i] = state[j];
             state[j] = temp;
@@ -66,45 +64,37 @@ void CX(Qubit& q, int idx_a, int idx_b) {
     }
 }
 
-void CZ(Qubit& q, int idx_a, int idx_b) {
+void CZ(Qubit& q, int control_idx, int target_idx) {
     if (q.num_qubits() < 2) {
         printError(2);
     }
-    validate_indices2(q, idx_a, idx_b);
+    validate_indices2(q, control_idx, target_idx);
 
     int len = q.size();
-    int ref_a = 1 << idx_a;
-    int ref_b = 1 << idx_b;
-    std::complex<double> c(0.0, 1.0);
+    int ref_a = 1 << control_idx;
+    int ref_b = 1 << target_idx;
     auto& state = q.state();
     for (int i = 0; i < len; ++i) {
-        // BUG: Should be (i & ref_a) instead of ((i & ref_a) == 0)
-        // Control qubit (ref_a) should be 1, not 0
-        if (((i & ref_a) == 0) && (i & ref_b)) {
-            int j = i | ref_a;
-            std::complex<double> temp = state[i];
-            state[i] = c * state[j];
-            state[j] = -c * temp;
+        if ((i & ref_a) && (i & ref_b)) {
+            state[i] *= -1.0;
         }
     }
 }
 
-void CCX(Qubit& q, int idx_a, int idx_b, int idx_c) {
+void CCX(Qubit& q, int control_a_idx, int control_b_idx, int target_idx) {
     if (q.num_qubits() < 3) {
         printError(2);
     }
-    validate_indices3(q, idx_a, idx_b, idx_c);
+    validate_indices3(q, control_a_idx, control_b_idx, target_idx);
 
     int len = q.size();
-    int ref_a = 1 << idx_a;
-    int ref_b = 1 << idx_b;
-    int ref_c = 1 << idx_c;
+    int ref_a = 1 << control_a_idx;
+    int ref_b = 1 << control_b_idx;
+    int ref_c = 1 << target_idx;
     auto& state = q.state();
     for (int i = 0; i < len; ++i) {
-        // BUG: Should be (i & ref_a) instead of ((i & ref_a) == 0)
-        // Control qubit (ref_a) should be 1, not 0
-        if (((i & ref_a) == 0) && (i & ref_b) && (i & ref_c)) {
-            int j = i | ref_a;
+        if ((i & ref_a) && (i & ref_b) && ((i & ref_c) == 0)) {
+            int j = i | ref_c;
             std::complex<double> temp = state[i];
             state[i] = state[j];
             state[j] = temp;

@@ -10,14 +10,14 @@ void Shor(Qubit& q) {
     gates::H(q, 1);
     gates::H(q, 2);
 
-    gates::CX(q, 4, 2);
-    gates::CX(q, 5, 2);
-    gates::CX(q, 5, 3);
-    gates::CCX(q, 3, 1, 5);
-    gates::CX(q, 5, 3);
-    gates::CX(q, 4, 6);
-    gates::CCX(q, 6, 1, 4);
-    gates::CX(q, 4, 6);
+    gates::CX(q, 2, 4);
+    gates::CX(q, 2, 5);
+    gates::CX(q, 3, 5);
+    gates::CCX(q, 1, 5, 3);
+    gates::CX(q, 3, 5);
+    gates::CX(q, 6, 4);
+    gates::CCX(q, 1, 4, 6);
+    gates::CX(q, 6, 4);
 
     gates::H(q, 0);
     gates::CR(q, 0, 1, -PI / 2);
