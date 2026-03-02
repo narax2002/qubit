@@ -1,84 +1,63 @@
-#include "qubit.h"
+#include "qubit_algorithms.hpp"
+#include "qubit_gates.hpp"
 
-/// <summary>
-/// Grover algorithm
-/// </summary>
+#include <cmath>
+#include <iostream>
 
-void Qubit::Grover(const int k)
-{
-	int dim = this->n - 1;	// 마지막 큐빗은 ancilla
-	int len = 1 << dim;
+namespace qubit {
+namespace algorithms {
 
-	if (len <= k) this->PrintError(3);
-	this->Initial();
+void Grover(Qubit& q, int k) {
+    int dim = q.num_qubits() - 1; // last qubit is ancilla
+    int len = 1 << dim;
 
-	int MaxIter = (int)ceil(pi * pow(2.0, (double)dim/2) / 4);
-	cout << "MaxIter = " << MaxIter << endl;
+    if (len <= k)
+        q.PrintError(3);
+    q.Initial();
 
-	/// <summary>
-	/// State Preparation
-	for (int i = 0; i < dim; ++i) this->H(i);
-	this->X(dim);
-	this->H(dim);
-	/// </summary>
+    int MaxIter = static_cast<int>(std::ceil(pi * std::pow(2.0, static_cast<double>(dim) / 2) / 4));
+    std::cout << "MaxIter = " << MaxIter << std::endl;
 
+    // State preparation
+    for (int i = 0; i < dim; ++i)
+        gates::H(q, i);
+    gates::X(q, dim);
+    gates::H(q, dim);
 
-	for (int iter = 0; iter < MaxIter; ++iter) {
-		/// <summary>
-		/// Quantum Oracle
-		int yk = k + (1 << dim);
-		complex<double> temp = this->q[k];
-		this->q[k] = this->q[yk];
-		this->q[yk] = temp;
-		//this->Toffoli(dim);
-		/// </summary>
-		
-		/// <summary>
-		/// Action identity - 2 * |psi><psi|
-		for (int i = 0; i < dim; ++i) this->H(i);
+    auto& state = q.state();
+    for (int iter = 0; iter < MaxIter; ++iter) {
+        // Quantum oracle
+        int yk = k + (1 << dim);
+        std::complex<double> temp = state[k];
+        state[k] = state[yk];
+        state[yk] = temp;
 
-		/// <summary>
-		/// Action identity - 2 * |0><0|
-		/// |0> --> -|0> and |x> --> |x> otherwise
-		for (int i = 0; i < dim; ++i) this->X(i); // |0> --> |2^dim-1>
-		this->q[(2 << dim) - 1] *= -1.0;
-		this->q[(1 << dim) - 1] *= -1.0;
-		/*
-		this->H(dim); // |0> --> |+> and |1> --> |->
-		this->Toffoli(dim); // if x == 2^dim-1 then |-> --> -|->
-		this->Z(dim); // |+> --> |-> and |-> --> |+>
-		this->Toffoli(dim); // if x == 2^dim -1 then |-> --> -|->
-		this->Z(dim); // |+> --> |-> and |-> --> |+>
-		this->H(dim); // |+> --> |0> and -|-> --> -|1>
-		/**/
+        // Action identity - 2 * |psi><psi|
+        for (int i = 0; i < dim; ++i)
+            gates::H(q, i);
 
-		for (int i = 0; i < dim; ++i) this->X(i); // |2^dim-1> --> |0>
-		/// </summary>
+        // Action identity - 2 * |0><0|
+        for (int i = 0; i < dim; ++i)
+            gates::X(q, i);
+        state[(2 << dim) - 1] *= -1.0;
+        state[(1 << dim) - 1] *= -1.0;
+        for (int i = 0; i < dim; ++i)
+            gates::X(q, i);
 
-		for (int i = 0; i < dim; ++i) this->H(i);
-		/// </summary>
+        for (int i = 0; i < dim; ++i)
+            gates::H(q, i);
+    }
 
-		
-		
-		/*
-		double* a_temp = this->Qnorm();
-		cout << "(" << a_temp[0] + a_temp[len];
-		for (int i = 1; i < (1 << dim); ++i) {
-			cout << "," << a_temp[i] + a_temp[i + len];
-		}
-		cout << ")" << endl;
-		/**/
-	}
-
-	/// <summary>
-	/// Mesuarement
-	/// </summary>
-	double* a_temp = this->Qnorm();
-	int max_idx = 0;
-	for (int i = 1; i < len; ++i) {
-		if (a_temp[i] + a_temp[i + len] > a_temp[max_idx] + a_temp[max_idx + len]) {
-			max_idx = i;
-		}
-	}
-	cout << "k=" << max_idx << endl;
+    // Measurement
+    std::vector<double> a_temp = q.Qnorm();
+    int max_idx = 0;
+    for (int i = 1; i < len; ++i) {
+        if (a_temp[i] + a_temp[i + len] > a_temp[max_idx] + a_temp[max_idx + len]) {
+            max_idx = i;
+        }
+    }
+    std::cout << "k=" << max_idx << std::endl;
 }
+
+} // namespace algorithms
+} // namespace qubit
