@@ -3,8 +3,6 @@
 #include "qubit_gates.hpp"
 
 #include <cmath>
-#include <iostream>
-
 namespace qubit::algorithms {
 
 void Grover(Qubit& q, int k) {
@@ -17,7 +15,6 @@ void Grover(Qubit& q, int k) {
     q.initial();
 
     int MaxIter = static_cast<int>(std::ceil(PI * std::pow(2.0, static_cast<double>(dim) / 2) / 4));
-    std::cout << "MaxIter = " << MaxIter << std::endl;
 
     // State preparation
     for (int i = 0; i < dim; ++i) {
@@ -53,16 +50,6 @@ void Grover(Qubit& q, int k) {
             gates::H(q, i);
         }
     }
-
-    // Measurement
-    std::vector<double> a_temp = q.Qnorm();
-    int max_idx = 0;
-    for (int i = 1; i < len; ++i) {
-        if (a_temp[i] + a_temp[i + len] > a_temp[max_idx] + a_temp[max_idx + len]) {
-            max_idx = i;
-        }
-    }
-    std::cout << "k=" << max_idx << std::endl;
 }
 
 } // namespace qubit::algorithms

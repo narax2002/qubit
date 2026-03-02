@@ -2,8 +2,6 @@
 #include "qubit_exceptions.hpp"
 #include "qubit_gates.hpp"
 
-#include <iostream>
-
 namespace qubit::algorithms {
 
 void Bernstein_Vazirani(Qubit& q, int s) {
@@ -43,16 +41,6 @@ void Bernstein_Vazirani(Qubit& q, int s) {
     for (int i = 0; i < dim; ++i) {
         gates::H(q, i);
     }
-
-    // Measurement
-    std::vector<double> a_temp = q.Qnorm();
-    int max_idx = 0;
-    for (int i = 1; i < len; ++i) {
-        if (a_temp[i] + a_temp[i + len] > a_temp[max_idx] + a_temp[max_idx + len]) {
-            max_idx = i;
-        }
-    }
-    std::cout << "s=" << max_idx << std::endl;
 }
 
 } // namespace qubit::algorithms

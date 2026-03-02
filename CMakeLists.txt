@@ -35,3 +35,5 @@ find_package(OpenMP)
 if(OpenMP_CXX_FOUND)
 	target_link_libraries(Sample PRIVATE OpenMP::OpenMP_CXX)
 endif()
+
+add_subdirectory(examples)
