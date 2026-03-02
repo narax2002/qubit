@@ -56,8 +56,8 @@ void SRX(Qubit& q, int idx) {
             int j = i | ref;
             std::complex<double> temp_a = state[i];
             std::complex<double> temp_b = state[j];
-            state[i] = c_a * temp_a + c_a * temp_b;
-            state[j] = c_b * temp_a + c_b * temp_b;
+            state[i] = c_a * temp_a + c_b * temp_b;
+            state[j] = c_b * temp_a + c_a * temp_b;
         }
     }
 }
