@@ -38,6 +38,28 @@ cmake -S . -B build
 cmake --build build -j
 ```
 
+Preset-based builds:
+
+```bash
+cmake --preset gcc
+cmake --build --preset gcc
+ctest --preset gcc
+
+cmake --preset clang
+cmake --build --preset clang
+ctest --preset clang
+
+cmake --preset gcc-release
+cmake --build --preset gcc-release
+ctest --preset gcc-release
+
+cmake --preset gcc-debug
+cmake --build --preset gcc-debug
+ctest --preset gcc-debug
+```
+
+All preset build trees are created under `build/<preset-name>/`.
+
 ## Run
 
 Examples:
@@ -55,6 +77,20 @@ Tests:
 ./build/bin/test_one_qubit_gates
 ./build/bin/test_multi_qubit_gates
 ./build/bin/test_algorithms
+./build/bin/test_memory_safety
+ctest --test-dir build
+```
+
+Leak checking with sanitizers:
+
+```bash
+cmake --preset gcc-asan
+cmake --build --preset gcc-asan
+ctest --preset gcc-asan -R memory_safety
+
+cmake --preset clang-asan
+cmake --build --preset clang-asan
+ctest --preset clang-asan -R memory_safety
 ```
 
 ## Public Headers

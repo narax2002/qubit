@@ -21,3 +21,11 @@ add_executable(test_algorithms
 target_link_libraries(test_algorithms PUBLIC qubit)
 
 add_test(NAME algorithms COMMAND test_algorithms)
+
+add_executable(test_memory_safety
+    one_qubit_test_main.cpp
+    test_memory_safety.cpp)
+
+target_link_libraries(test_memory_safety PUBLIC qubit)
+
+add_test(NAME memory_safety COMMAND test_memory_safety)

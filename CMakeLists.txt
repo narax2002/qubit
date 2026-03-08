@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.16)
 project(qubit LANGUAGES CXX)
 
+option(QUBIT_ENABLE_SANITIZERS "Enable AddressSanitizer and UndefinedBehaviorSanitizer." OFF)
+
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib/)
 set(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR}/bin)
 
@@ -28,6 +30,16 @@ target_include_directories(
 target_compile_options(
 	${PROJECT_NAME} PRIVATE $<$<COMPILE_LANGUAGE:CXX>:-Wall
 	                             -Wextra -Werror>)
+
+if(QUBIT_ENABLE_SANITIZERS)
+	if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
+		target_compile_options(
+			${PROJECT_NAME} PUBLIC -fsanitize=address,undefined -fno-omit-frame-pointer)
+		target_link_options(${PROJECT_NAME} PUBLIC -fsanitize=address,undefined)
+	else()
+		message(FATAL_ERROR "QUBIT_ENABLE_SANITIZERS requires GCC or Clang.")
+	endif()
+endif()
 
 add_subdirectory(examples)
 enable_testing()
