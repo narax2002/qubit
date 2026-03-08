@@ -1,5 +1,6 @@
 #pragma once
 
+#include <exception>
 #include <iostream>
 #include <string>
 #include <vector>
@@ -55,6 +56,26 @@ inline void expect_true(bool cond, const char* expr, const char* file, int line,
     fail(expr, file, line, msg ? std::string(msg) : std::string());
 }
 
+template <typename Exception, typename Fn>
+inline void expect_throw(Fn&& fn, const char* expr, const char* file, int line,
+                         const char* exception_name) {
+    try {
+        fn();
+    } catch (const Exception&) {
+        return;
+    } catch (const std::exception& ex) {
+        fail(expr, file, line,
+             std::string("expected ") + exception_name + ", got std::exception: " + ex.what());
+        return;
+    } catch (...) {
+        fail(expr, file, line,
+             std::string("expected ") + exception_name + ", got non-std exception");
+        return;
+    }
+
+    fail(expr, file, line, std::string("expected ") + exception_name + " to be thrown");
+}
+
 } // namespace qubit::test
 
 #define TEST(name) \
@@ -67,3 +88,10 @@ inline void expect_true(bool cond, const char* expr, const char* file, int line,
 
 #define EXPECT_TRUE_MSG(cond, msg) \
     ::qubit::test::expect_true((cond), #cond, __FILE__, __LINE__, (msg))
+
+#define EXPECT_THROW(stmt, exception_type)                                                   \
+    ::qubit::test::expect_throw<exception_type>(                                             \
+        [&]() {                                                                              \
+            static_cast<void>(stmt);                                                         \
+        },                                                                                   \
+        #stmt, __FILE__, __LINE__, #exception_type)

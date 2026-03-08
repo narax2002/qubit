@@ -16,7 +16,7 @@ Qubit::Qubit() : n_(1) {
 
 Qubit::Qubit(int nv) {
     if (nv <= 0) {
-        printError(2);
+        throwInvalidQubitCount();
     }
     n_ = nv;
     q_.assign(1 << nv, std::complex<double>(0.0, 0.0));

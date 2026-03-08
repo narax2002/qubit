@@ -13,3 +13,11 @@ add_executable(test_multi_qubit_gates
 target_link_libraries(test_multi_qubit_gates PUBLIC qubit)
 
 add_test(NAME multi_qubit_gates COMMAND test_multi_qubit_gates)
+
+add_executable(test_algorithms
+    one_qubit_test_main.cpp
+    test_algorithms.cpp)
+
+target_link_libraries(test_algorithms PUBLIC qubit)
+
+add_test(NAME algorithms COMMAND test_algorithms)
