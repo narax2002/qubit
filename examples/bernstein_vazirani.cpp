@@ -31,7 +31,7 @@ static void print_usage(const char* prog) {
 }
 
 int main(int argc, char** argv) {
-    int n = 5; // total qubits, last is ancilla
+    int n = 5;      // total qubits, last is ancilla
     int s = 0b1010; // hidden string (must be < 2^(n-1))
 
     for (int i = 1; i < argc; ++i) {

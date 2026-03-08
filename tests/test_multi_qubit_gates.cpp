@@ -72,5 +72,6 @@ TEST(Toffoli_gate) {
 
     qubit::test::set_basis_state(q, 6); // |110>
     gates::Toffoli(q, 2, 1, 0);
-    qubit::test::expect_state("Toffoli |110>", q, {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0}); // |111>
+    qubit::test::expect_state("Toffoli |110>", q,
+                              {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0}); // |111>
 }

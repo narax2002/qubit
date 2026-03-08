@@ -68,21 +68,20 @@ TEST(phase_gates) {
 
     qubit::test::set_state(q, plus);
     gates::T(q, 0);
-    qubit::test::expect_state("T |+>", q,
-                              {1.0 / std::sqrt(2.0),
-                               std::complex<double>(1.0, 1.0) / std::sqrt(2.0) / std::sqrt(2.0)});
+    qubit::test::expect_state(
+        "T |+>", q,
+        {1.0 / std::sqrt(2.0), std::complex<double>(1.0, 1.0) / std::sqrt(2.0) / std::sqrt(2.0)});
 
     qubit::test::set_state(q, plus);
     gates::Td(q, 0);
-    qubit::test::expect_state("Td |+>", q,
-                              {1.0 / std::sqrt(2.0),
-                               std::complex<double>(1.0, -1.0) / std::sqrt(2.0) / std::sqrt(2.0)});
+    qubit::test::expect_state(
+        "Td |+>", q,
+        {1.0 / std::sqrt(2.0), std::complex<double>(1.0, -1.0) / std::sqrt(2.0) / std::sqrt(2.0)});
 
     qubit::test::set_state(q, plus);
     gates::R(q, 0, PI / 3.0);
     qubit::test::expect_state("R |+>", q,
-                              {1.0 / std::sqrt(2.0),
-                               std::polar(1.0, PI / 3.0) / std::sqrt(2.0)});
+                              {1.0 / std::sqrt(2.0), std::polar(1.0, PI / 3.0) / std::sqrt(2.0)});
 }
 
 TEST(SRX_gate) {

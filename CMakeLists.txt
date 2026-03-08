@@ -27,14 +27,7 @@ target_include_directories(
            $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>)
 target_compile_options(
 	${PROJECT_NAME} PRIVATE $<$<COMPILE_LANGUAGE:CXX>:-Wall
-                             -Wextra -Werror>)
-
-add_executable(Sample sample.cpp)
-target_link_libraries(Sample PUBLIC ${PROJECT_NAME})
-find_package(OpenMP)
-if(OpenMP_CXX_FOUND)
-	target_link_libraries(Sample PRIVATE OpenMP::OpenMP_CXX)
-endif()
+	                             -Wextra -Werror>)
 
 add_subdirectory(examples)
 enable_testing()

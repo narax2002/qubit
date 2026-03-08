@@ -63,29 +63,22 @@ TEST(QFT_transforms_basis_state) {
     gates::X(q, 0);
     algo::QFT(q);
 
-    qubit::test::expect_state("QFT |001>", q,
-                              {std::complex<double>(0.3535533905932738, 0.0),
-                               std::complex<double>(0.25, 0.25),
-                               std::complex<double>(0.0, 0.3535533905932738),
-                               std::complex<double>(-0.25, 0.25),
-                               std::complex<double>(-0.3535533905932738, 0.0),
-                               std::complex<double>(-0.25, -0.25),
-                               std::complex<double>(0.0, -0.3535533905932738),
-                               std::complex<double>(0.25, -0.25)});
+    qubit::test::expect_state(
+        "QFT |001>", q,
+        {std::complex<double>(0.3535533905932738, 0.0), std::complex<double>(0.25, 0.25),
+         std::complex<double>(0.0, 0.3535533905932738), std::complex<double>(-0.25, 0.25),
+         std::complex<double>(-0.3535533905932738, 0.0), std::complex<double>(-0.25, -0.25),
+         std::complex<double>(0.0, -0.3535533905932738), std::complex<double>(0.25, -0.25)});
 }
 
 TEST(FFT_and_IFFT_round_trip) {
     Qubit q(3);
 
     const std::vector<std::complex<double>> expected = {
-        std::complex<double>(1.0, 0.0),
-        std::complex<double>(-0.5, 0.25),
-        std::complex<double>(0.25, -0.75),
-        std::complex<double>(0.0, 0.5),
-        std::complex<double>(-1.0, 0.0),
-        std::complex<double>(0.75, 0.25),
-        std::complex<double>(0.5, 0.5),
-        std::complex<double>(-0.25, -0.25),
+        std::complex<double>(1.0, 0.0),    std::complex<double>(-0.5, 0.25),
+        std::complex<double>(0.25, -0.75), std::complex<double>(0.0, 0.5),
+        std::complex<double>(-1.0, 0.0),   std::complex<double>(0.75, 0.25),
+        std::complex<double>(0.5, 0.5),    std::complex<double>(-0.25, -0.25),
     };
 
     qubit::test::set_state(q, expected);
@@ -100,14 +93,10 @@ TEST(QFT_matches_scaled_IFFT) {
     Qubit q_ifft(3);
 
     const std::vector<std::complex<double>> state = {
-        std::complex<double>(1.0, 0.0),
-        std::complex<double>(-0.5, 0.25),
-        std::complex<double>(0.25, -0.75),
-        std::complex<double>(0.0, 0.5),
-        std::complex<double>(-1.0, 0.0),
-        std::complex<double>(0.75, 0.25),
-        std::complex<double>(0.5, 0.5),
-        std::complex<double>(-0.25, -0.25),
+        std::complex<double>(1.0, 0.0),    std::complex<double>(-0.5, 0.25),
+        std::complex<double>(0.25, -0.75), std::complex<double>(0.0, 0.5),
+        std::complex<double>(-1.0, 0.0),   std::complex<double>(0.75, 0.25),
+        std::complex<double>(0.5, 0.5),    std::complex<double>(-0.25, -0.25),
     };
 
     qubit::test::set_state(q_qft, state);
@@ -118,9 +107,8 @@ TEST(QFT_matches_scaled_IFFT) {
 
     const double scale = std::sqrt(static_cast<double>(q_qft.size()));
     for (int i = 0; i < q_qft.size(); ++i) {
-        EXPECT_TRUE_MSG(
-            qubit::test::approx_eq(q_qft.state()[i], scale * q_ifft.state()[i]),
-            "QFT[k] should match sqrt(N) * IFFT[k] with current normalization");
+        EXPECT_TRUE_MSG(qubit::test::approx_eq(q_qft.state()[i], scale * q_ifft.state()[i]),
+                        "QFT[k] should match sqrt(N) * IFFT[k] with current normalization");
     }
 }
 
