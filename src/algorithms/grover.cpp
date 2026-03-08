@@ -1,0 +1,55 @@
+#include "qubit/algorithms/search.hpp"
+#include "qubit/exceptions.hpp"
+#include "qubit/gates/one_qubit.hpp"
+
+#include <cmath>
+namespace qubit::algorithms {
+
+void Grover(Qubit& q, int k) {
+    int dim = q.num_qubits() - 1; // last qubit is ancilla
+    int len = 1 << dim;
+
+    if (k < 0 || len <= k) {
+        printError(3);
+    }
+    q.initial();
+
+    int MaxIter = static_cast<int>(std::ceil(PI * std::pow(2.0, static_cast<double>(dim) / 2) / 4));
+
+    // State preparation
+    for (int i = 0; i < dim; ++i) {
+        gates::H(q, i);
+    }
+    gates::X(q, dim);
+    gates::H(q, dim);
+
+    auto& state = q.state();
+    for (int iter = 0; iter < MaxIter; ++iter) {
+        // Quantum oracle
+        int yk = k + (1 << dim);
+        std::complex<double> temp = state[k];
+        state[k] = state[yk];
+        state[yk] = temp;
+
+        // Action identity - 2 * |psi><psi|
+        for (int i = 0; i < dim; ++i) {
+            gates::H(q, i);
+        }
+
+        // Action identity - 2 * |0><0|
+        for (int i = 0; i < dim; ++i) {
+            gates::X(q, i);
+        }
+        state[(2 << dim) - 1] *= -1.0;
+        state[(1 << dim) - 1] *= -1.0;
+        for (int i = 0; i < dim; ++i) {
+            gates::X(q, i);
+        }
+
+        for (int i = 0; i < dim; ++i) {
+            gates::H(q, i);
+        }
+    }
+}
+
+} // namespace qubit::algorithms

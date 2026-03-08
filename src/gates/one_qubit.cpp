@@ -1,15 +1,20 @@
-#include "qubit_gates.hpp"
+#include "qubit/gates/one_qubit.hpp"
+#include "qubit/exceptions.hpp"
 
 #include <cmath>
 
 // One-qubit gate definitions.
 
-namespace qubit {
-namespace gates {
+namespace qubit::gates {
+
+static inline void validate_index(const Qubit& q, int idx) {
+    if (idx < 0 || idx >= q.num_qubits()) {
+        printError(1);
+    }
+}
 
 void H(Qubit& q, int idx) {
-    if (idx >= q.num_qubits())
-        q.PrintError(1);
+    validate_index(q, idx);
     int len = q.size();
     int ref = 1 << idx;
     std::vector<std::complex<double>> temp(len);
@@ -25,8 +30,7 @@ void H(Qubit& q, int idx) {
 }
 
 void X(Qubit& q, int idx) {
-    if (idx >= q.num_qubits())
-        q.PrintError(1);
+    validate_index(q, idx);
     int len = q.size();
     int ref = 1 << idx;
     auto& state = q.state();
@@ -41,8 +45,7 @@ void X(Qubit& q, int idx) {
 }
 
 void SRX(Qubit& q, int idx) {
-    if (idx >= q.num_qubits())
-        q.PrintError(1);
+    validate_index(q, idx);
     int len = q.size();
     int ref = 1 << idx;
     std::complex<double> c_a(0.5, 0.5);
@@ -53,15 +56,14 @@ void SRX(Qubit& q, int idx) {
             int j = i | ref;
             std::complex<double> temp_a = state[i];
             std::complex<double> temp_b = state[j];
-            state[i] = c_a * temp_a + c_a * temp_b;
-            state[j] = c_b * temp_a + c_b * temp_b;
+            state[i] = c_a * temp_a + c_b * temp_b;
+            state[j] = c_b * temp_a + c_a * temp_b;
         }
     }
 }
 
 void Y(Qubit& q, int idx) {
-    if (idx >= q.num_qubits())
-        q.PrintError(1);
+    validate_index(q, idx);
     int len = q.size();
     int ref = 1 << idx;
     std::complex<double> c(0.0, 1.0);
@@ -77,8 +79,7 @@ void Y(Qubit& q, int idx) {
 }
 
 void Z(Qubit& q, int idx) {
-    if (idx >= q.num_qubits())
-        q.PrintError(1);
+    validate_index(q, idx);
     int len = q.size();
     int ref = 1 << idx;
     auto& state = q.state();
@@ -90,8 +91,7 @@ void Z(Qubit& q, int idx) {
 }
 
 void S(Qubit& q, int idx) {
-    if (idx >= q.num_qubits())
-        q.PrintError(1);
+    validate_index(q, idx);
     int len = q.size();
     int ref = 1 << idx;
     std::complex<double> c(0.0, 1.0);
@@ -104,8 +104,7 @@ void S(Qubit& q, int idx) {
 }
 
 void Sd(Qubit& q, int idx) {
-    if (idx >= q.num_qubits())
-        q.PrintError(1);
+    validate_index(q, idx);
     int len = q.size();
     int ref = 1 << idx;
     std::complex<double> c(0.0, -1.0);
@@ -118,8 +117,7 @@ void Sd(Qubit& q, int idx) {
 }
 
 void T(Qubit& q, int idx) {
-    if (idx >= q.num_qubits())
-        q.PrintError(1);
+    validate_index(q, idx);
     int len = q.size();
     int ref = 1 << idx;
     std::complex<double> c(1.0 / std::sqrt(2.0), 1.0 / std::sqrt(2.0));
@@ -132,8 +130,7 @@ void T(Qubit& q, int idx) {
 }
 
 void Td(Qubit& q, int idx) {
-    if (idx >= q.num_qubits())
-        q.PrintError(1);
+    validate_index(q, idx);
     int len = q.size();
     int ref = 1 << idx;
     std::complex<double> c(1.0 / std::sqrt(2.0), -1.0 / std::sqrt(2.0));
@@ -146,8 +143,7 @@ void Td(Qubit& q, int idx) {
 }
 
 void R(Qubit& q, int idx, double phi) {
-    if (idx >= q.num_qubits())
-        q.PrintError(1);
+    validate_index(q, idx);
     int len = q.size();
     int ref = 1 << idx;
     std::complex<double> c = std::polar(1.0, phi);
@@ -159,5 +155,4 @@ void R(Qubit& q, int idx, double phi) {
     }
 }
 
-} // namespace gates
-} // namespace qubit
+} // namespace qubit::gates

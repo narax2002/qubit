@@ -1,24 +1,24 @@
-#include "qubit_algorithms.hpp"
-#include "qubit_gates.hpp"
+#include "qubit/algorithms/search.hpp"
+#include "qubit/exceptions.hpp"
+#include "qubit/gates/one_qubit.hpp"
 
-#include <iostream>
-
-namespace qubit {
-namespace algorithms {
+namespace qubit::algorithms {
 
 void Bernstein_Vazirani(Qubit& q, int s) {
     int dim = q.num_qubits() - 1;
     int len = 1 << dim;
 
-    if (len <= s)
-        q.PrintError(3);
-    q.Initial();
+    if (s < 0 || len <= s) {
+        printError(3);
+    }
+    q.initial();
 
     // State preparation
-    q.Initial();
+    q.initial();
     gates::X(q, dim);
-    for (int i = 0; i <= dim; ++i)
+    for (int i = 0; i <= dim; ++i) {
         gates::H(q, i);
+    }
 
     // Classical hidden string
     auto& state = q.state();
@@ -38,19 +38,9 @@ void Bernstein_Vazirani(Qubit& q, int s) {
     }
 
     // Basis change
-    for (int i = 0; i < dim; ++i)
+    for (int i = 0; i < dim; ++i) {
         gates::H(q, i);
-
-    // Measurement
-    std::vector<double> a_temp = q.Qnorm();
-    int max_idx = 0;
-    for (int i = 1; i < len; ++i) {
-        if (a_temp[i] + a_temp[i + len] > a_temp[max_idx] + a_temp[max_idx + len]) {
-            max_idx = i;
-        }
     }
-    std::cout << "s=" << max_idx << std::endl;
 }
 
-} // namespace algorithms
-} // namespace qubit
+} // namespace qubit::algorithms

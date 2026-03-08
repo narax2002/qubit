@@ -1,0 +1,199 @@
+{
+  "version": 2,
+  "cmakeMinimumRequired": {
+    "major": 3,
+    "minor": 20,
+    "patch": 0
+  },
+  "configurePresets": [
+    {
+      "name": "base",
+      "hidden": true,
+      "generator": "Unix Makefiles",
+      "binaryDir": "${sourceDir}/build/${presetName}"
+    },
+    {
+      "name": "gcc-base",
+      "hidden": true,
+      "inherits": "base",
+      "cacheVariables": {
+        "CMAKE_CXX_COMPILER": "g++"
+      }
+    },
+    {
+      "name": "clang-base",
+      "hidden": true,
+      "inherits": "base",
+      "cacheVariables": {
+        "CMAKE_CXX_COMPILER": "clang++"
+      }
+    },
+    {
+      "name": "gcc",
+      "displayName": "GCC RelWithDebInfo",
+      "description": "Configure an optimized build with debug info using GCC.",
+      "inherits": "gcc-base",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "RelWithDebInfo"
+      }
+    },
+    {
+      "name": "gcc-debug",
+      "displayName": "GCC Debug",
+      "description": "Configure a default debug build with GCC.",
+      "inherits": "gcc-base",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug"
+      }
+    },
+    {
+      "name": "gcc-release",
+      "displayName": "GCC Release",
+      "description": "Configure a release build with GCC.",
+      "inherits": "gcc-base",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release"
+      }
+    },
+    {
+      "name": "gcc-asan",
+      "displayName": "GCC ASan",
+      "description": "Configure a sanitizer-enabled debug build with GCC.",
+      "inherits": "gcc-base",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "QUBIT_ENABLE_SANITIZERS": "ON"
+      }
+    },
+    {
+      "name": "clang",
+      "displayName": "Clang RelWithDebInfo",
+      "description": "Configure an optimized build with debug info using Clang.",
+      "inherits": "clang-base",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "RelWithDebInfo"
+      }
+    },
+    {
+      "name": "clang-debug",
+      "displayName": "Clang Debug",
+      "description": "Configure a default debug build with Clang.",
+      "inherits": "clang-base",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug"
+      }
+    },
+    {
+      "name": "clang-release",
+      "displayName": "Clang Release",
+      "description": "Configure a release build with Clang.",
+      "inherits": "clang-base",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release"
+      }
+    },
+    {
+      "name": "clang-asan",
+      "displayName": "Clang ASan",
+      "description": "Configure a sanitizer-enabled debug build with Clang.",
+      "inherits": "clang-base",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "QUBIT_ENABLE_SANITIZERS": "ON"
+      }
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "gcc",
+      "displayName": "Build GCC RelWithDebInfo",
+      "configurePreset": "gcc"
+    },
+    {
+      "name": "gcc-debug",
+      "displayName": "Build GCC Debug",
+      "configurePreset": "gcc-debug"
+    },
+    {
+      "name": "gcc-release",
+      "displayName": "Build GCC Release",
+      "configurePreset": "gcc-release"
+    },
+    {
+      "name": "gcc-asan",
+      "displayName": "Build GCC ASan",
+      "configurePreset": "gcc-asan"
+    },
+    {
+      "name": "clang",
+      "displayName": "Build Clang RelWithDebInfo",
+      "configurePreset": "clang"
+    },
+    {
+      "name": "clang-debug",
+      "displayName": "Build Clang Debug",
+      "configurePreset": "clang-debug"
+    },
+    {
+      "name": "clang-release",
+      "displayName": "Build Clang Release",
+      "configurePreset": "clang-release"
+    },
+    {
+      "name": "clang-asan",
+      "displayName": "Build Clang ASan",
+      "configurePreset": "clang-asan"
+    }
+  ],
+  "testPresets": [
+    {
+      "name": "test-base",
+      "hidden": true,
+      "output": {
+        "outputOnFailure": true
+      }
+    },
+    {
+      "name": "gcc",
+      "displayName": "Test GCC RelWithDebInfo",
+      "inherits": "test-base",
+      "configurePreset": "gcc"
+    },
+    {
+      "name": "gcc-debug",
+      "displayName": "Test GCC Debug",
+      "inherits": "test-base",
+      "configurePreset": "gcc-debug"
+    },
+    {
+      "name": "gcc-release",
+      "displayName": "Test GCC Release",
+      "inherits": "test-base",
+      "configurePreset": "gcc-release"
+    },
+    {
+      "name": "gcc-asan",
+      "displayName": "Test GCC ASan",
+      "inherits": "test-base",
+      "configurePreset": "gcc-asan"
+    },
+    {
+      "name": "clang",
+      "displayName": "Test Clang RelWithDebInfo",
+      "inherits": "test-base",
+      "configurePreset": "clang"
+    },
+    {
+      "name": "clang-debug",
+      "displayName": "Test Clang Debug",
+      "inherits": "test-base",
+      "configurePreset": "clang-debug"
+    },
+    {
+      "name": "clang-release",
+      "displayName": "Test Clang Release",
+      "inherits": "test-base",
+      "configurePreset": "clang-release"
+    }
+  ]
+}
