@@ -8,7 +8,8 @@
 #include <string>
 
 using qubit::Qubit;
-namespace g = qubit::gates;
+namespace algo = qubit::algorithms;
+namespace gates = qubit::gates;
 
 static std::string bits(int idx, int n) {
     std::string out;
@@ -66,11 +67,11 @@ int main(int argc, char** argv) {
     q.initial();
     for (int i = 0; i < n; ++i) {
         if (k & (1 << i)) {
-            g::X(q, i);
+            gates::X(q, i);
         }
     }
 
-    qubit::algorithms::QFT(q);
+    algo::QFT(q);
 
     std::cout << "QFT amplitudes:\n";
     const auto& s = q.state();

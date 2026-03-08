@@ -7,6 +7,7 @@
 #include <string>
 
 using qubit::Qubit;
+namespace algo = qubit::algorithms;
 
 static int measure_marked(const Qubit& q) {
     int dim = q.num_qubits() - 1; // last qubit is ancilla
@@ -69,7 +70,7 @@ int main(int argc, char** argv) {
     std::cout << "n=" << n << " k=" << k << "\n";
 
     Qubit q(n);
-    qubit::algorithms::Grover(q, k);
+    algo::Grover(q, k);
 
     int measured = measure_marked(q);
     int iters = max_iter(n - 1);

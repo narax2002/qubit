@@ -15,7 +15,7 @@ set(SRCS
 	src/multi_qubit_gates.cpp
 	src/qubit_Bernstein_Vazirani.cpp
 	src/qubit_Grover.cpp
-	src/qubit_QFT.cpp
+	src/qubit_qft.cpp
 	src/qubit_Shor.cpp)
 
 add_library(${PROJECT_NAME} STATIC ${SRCS})

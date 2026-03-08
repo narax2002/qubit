@@ -121,18 +121,6 @@ int main() {
     Timer::stop();
     Timer::printTime("IFFT", 2);
 
-    Timer::start();
-    algorithms::FFT_iter(q1);
-    algorithms::FFT_iter(q2);
-    Timer::stop();
-    Timer::printTime("FFT_iter", 2);
-
-    Timer::start();
-    algorithms::IFFT(q1);
-    algorithms::IFFT(q2);
-    Timer::stop();
-    Timer::printTime("IFFT", 2);
-
     // Timer::start();
     // algorithms::Shor(q1);
     // Timer::stop();

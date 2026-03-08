@@ -6,6 +6,7 @@
 #include <string>
 
 using qubit::Qubit;
+namespace algo = qubit::algorithms;
 
 static int measure_hidden_string(const Qubit& q) {
     int dim = q.num_qubits() - 1;
@@ -65,7 +66,7 @@ int main(int argc, char** argv) {
     std::cout << "n=" << n << " s=" << s << "\n";
 
     Qubit q(n);
-    qubit::algorithms::Bernstein_Vazirani(q, s);
+    algo::Bernstein_Vazirani(q, s);
 
     int measured = measure_hidden_string(q);
     std::cout << "measured=" << measured << " expected=" << s << "\n";

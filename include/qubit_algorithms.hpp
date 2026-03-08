@@ -9,9 +9,9 @@ void Bernstein_Vazirani(Qubit& q, int s);
 void Shor(Qubit& q);
 
 void QFT(Qubit& q);
+
+// Classical Fourier transform helpers operating on the state vector.
 void FFT(Qubit& q);
 void IFFT(Qubit& q);
-void FFT_iter(Qubit& q);
-void Multi(Qubit& out, const Qubit& a, const Qubit& b);
 
 } // namespace qubit::algorithms

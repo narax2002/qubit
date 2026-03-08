@@ -5,6 +5,7 @@
 #include <string>
 
 using qubit::Qubit;
+namespace algo = qubit::algorithms;
 
 static void print_usage(const char* prog) {
     std::cout << "Usage: " << prog << " [-n NUM_QUBITS]\n"
@@ -56,7 +57,7 @@ int main(int argc, char** argv) {
     std::cout << "n=" << n << "\n";
 
     Qubit q(n);
-    qubit::algorithms::Shor(q);
+    algo::Shor(q);
 
     print_shor_summary(q);
     std::cout << q << "\n";
