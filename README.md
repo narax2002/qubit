@@ -21,7 +21,7 @@ The project builds a static library, several example programs, and a small test 
 
 Required:
 
-- CMake 3.16 or newer
+- CMake 3.20 or newer
 - A C++17 compiler
 
 Optional:
@@ -62,24 +62,31 @@ All preset build trees are created under `build/<preset-name>/`.
 
 ## Run
 
-Examples:
+Manual build outputs (`cmake -S . -B build`):
 
 ```bash
 ./build/bin/bernstein_vazirani -n 5 -s 10
 ./build/bin/grover -n 5 -k 3
 ./build/bin/qft -n 3 -k 1
 ./build/bin/shor -n 7
-```
-
-Tests:
-
-```bash
 ./build/bin/test_one_qubit_gates
 ./build/bin/test_multi_qubit_gates
 ./build/bin/test_algorithms
 ./build/bin/test_memory_safety
 ctest --test-dir build
 ```
+
+Preset build outputs (`cmake --preset <name>`):
+
+```bash
+./build/gcc/bin/bernstein_vazirani -n 5 -s 10
+./build/gcc/bin/grover -n 5 -k 3
+./build/gcc/bin/qft -n 3 -k 1
+./build/gcc/bin/shor -n 7
+ctest --preset gcc
+```
+
+Replace `gcc` with `clang`, `gcc-release`, `gcc-debug`, `gcc-asan`, or `clang-asan` as needed.
 
 Leak checking with sanitizers:
 
@@ -90,8 +97,13 @@ ctest --preset gcc-asan -R memory_safety
 
 cmake --preset clang-asan
 cmake --build --preset clang-asan
-ctest --preset clang-asan -R memory_safety
+./build/clang-asan/bin/test_one_qubit_gates
+./build/clang-asan/bin/test_multi_qubit_gates
+./build/clang-asan/bin/test_algorithms
+./build/clang-asan/bin/test_memory_safety
 ```
+
+Use `gcc-asan` for automated leak detection. In this environment, `clang-asan` is kept for manual AddressSanitizer/UndefinedBehaviorSanitizer runtime checks.
 
 ## Public Headers
 

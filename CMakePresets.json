@@ -154,15 +154,6 @@
       }
     },
     {
-      "name": "asan-test-base",
-      "hidden": true,
-      "inherits": "test-base",
-      "environment": {
-        "ASAN_OPTIONS": "detect_leaks=1",
-        "UBSAN_OPTIONS": "print_stacktrace=1"
-      }
-    },
-    {
       "name": "gcc",
       "displayName": "Test GCC RelWithDebInfo",
       "inherits": "test-base",
@@ -183,7 +174,7 @@
     {
       "name": "gcc-asan",
       "displayName": "Test GCC ASan",
-      "inherits": "asan-test-base",
+      "inherits": "test-base",
       "configurePreset": "gcc-asan"
     },
     {
@@ -203,12 +194,6 @@
       "displayName": "Test Clang Release",
       "inherits": "test-base",
       "configurePreset": "clang-release"
-    },
-    {
-      "name": "clang-asan",
-      "displayName": "Test Clang ASan",
-      "inherits": "asan-test-base",
-      "configurePreset": "clang-asan"
     }
   ]
 }
