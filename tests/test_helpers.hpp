@@ -1,6 +1,6 @@
 #pragma once
 
-#include "qubit.hpp"
+#include "qubit/register.hpp"
 #include "test_framework.hpp"
 
 #include <algorithm>
@@ -12,7 +12,8 @@ namespace qubit::test {
 
 static constexpr double kEps = 1e-9;
 
-inline bool approx_eq(const std::complex<double>& a, const std::complex<double>& b, double eps = kEps) {
+inline bool approx_eq(const std::complex<double>& a, const std::complex<double>& b,
+                      double eps = kEps) {
     return std::abs(a - b) <= eps;
 }
 

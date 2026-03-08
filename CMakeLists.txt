@@ -10,13 +10,13 @@ set(CMAKE_CXX_EXTENSIONS No)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 set(SRCS
-	src/qubit_operator.cpp
-	src/one_qubit_gates.cpp
-	src/multi_qubit_gates.cpp
-	src/qubit_Bernstein_Vazirani.cpp
-	src/qubit_Grover.cpp
-	src/qubit_qft.cpp
-	src/qubit_Shor.cpp)
+	src/qubit.cpp
+	src/gates/one_qubit.cpp
+	src/gates/multi_qubit.cpp
+	src/algorithms/bernstein_vazirani.cpp
+	src/algorithms/grover.cpp
+	src/algorithms/qft.cpp
+	src/algorithms/shor.cpp)
 
 add_library(${PROJECT_NAME} STATIC ${SRCS})
 

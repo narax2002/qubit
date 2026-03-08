@@ -1,5 +1,5 @@
-#include "qubit_exceptions.hpp"
-#include "qubit_gates.hpp"
+#include "qubit/gates/multi_qubit.hpp"
+#include "qubit/exceptions.hpp"
 
 #include <cmath>
 

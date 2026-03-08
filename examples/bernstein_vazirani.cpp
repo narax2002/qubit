@@ -1,5 +1,4 @@
-#include "qubit.hpp"
-#include "qubit_algorithms.hpp"
+#include "qubit/qubit.hpp"
 
 #include <cstdlib>
 #include <iostream>

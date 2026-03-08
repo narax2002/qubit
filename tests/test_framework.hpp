@@ -19,9 +19,7 @@ inline std::vector<TestCase>& registry() {
 
 class Registrar {
 public:
-    Registrar(const char* name, void (*fn)()) {
-        registry().push_back({name, fn});
-    }
+    Registrar(const char* name, void (*fn)()) { registry().push_back({name, fn}); }
 };
 
 inline const char*& current_test_name() {
@@ -78,20 +76,16 @@ inline void expect_throw(Fn&& fn, const char* expr, const char* file, int line,
 
 } // namespace qubit::test
 
-#define TEST(name) \
-    static void test_##name(); \
-    static ::qubit::test::Registrar registrar_##name(#name, test_##name); \
+#define TEST(name)                                                                                 \
+    static void test_##name();                                                                     \
+    static ::qubit::test::Registrar registrar_##name(#name, test_##name);                          \
     static void test_##name()
 
-#define EXPECT_TRUE(cond) \
-    ::qubit::test::expect_true((cond), #cond, __FILE__, __LINE__, "")
+#define EXPECT_TRUE(cond) ::qubit::test::expect_true((cond), #cond, __FILE__, __LINE__, "")
 
-#define EXPECT_TRUE_MSG(cond, msg) \
+#define EXPECT_TRUE_MSG(cond, msg)                                                                 \
     ::qubit::test::expect_true((cond), #cond, __FILE__, __LINE__, (msg))
 
-#define EXPECT_THROW(stmt, exception_type)                                                   \
-    ::qubit::test::expect_throw<exception_type>(                                             \
-        [&]() {                                                                              \
-            static_cast<void>(stmt);                                                         \
-        },                                                                                   \
-        #stmt, __FILE__, __LINE__, #exception_type)
+#define EXPECT_THROW(stmt, exception_type)                                                         \
+    ::qubit::test::expect_throw<exception_type>([&]() { static_cast<void>(stmt); }, #stmt,         \
+                                                __FILE__, __LINE__, #exception_type)

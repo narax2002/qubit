@@ -1,4 +1,4 @@
-#include "qubit_gates.hpp"
+#include "qubit/qubit.hpp"
 #include "test_framework.hpp"
 #include "test_helpers.hpp"
 

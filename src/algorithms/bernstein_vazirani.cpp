@@ -1,6 +1,6 @@
-#include "qubit_algorithms.hpp"
-#include "qubit_exceptions.hpp"
-#include "qubit_gates.hpp"
+#include "qubit/algorithms/search.hpp"
+#include "qubit/exceptions.hpp"
+#include "qubit/gates/one_qubit.hpp"
 
 namespace qubit::algorithms {
 

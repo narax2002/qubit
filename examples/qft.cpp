@@ -1,6 +1,4 @@
-#include "qubit.hpp"
-#include "qubit_algorithms.hpp"
-#include "qubit_gates.hpp"
+#include "qubit/qubit.hpp"
 
 #include <cmath>
 #include <cstdlib>

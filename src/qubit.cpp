@@ -1,5 +1,5 @@
-#include "qubit.hpp"
-#include "qubit_exceptions.hpp"
+#include "qubit/exceptions.hpp"
+#include "qubit/register.hpp"
 
 #include <cstdlib>
 

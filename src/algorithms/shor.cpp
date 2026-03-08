@@ -1,5 +1,6 @@
-#include "qubit_algorithms.hpp"
-#include "qubit_gates.hpp"
+#include "qubit/algorithms/shor.hpp"
+#include "qubit/gates/multi_qubit.hpp"
+#include "qubit/gates/one_qubit.hpp"
 
 namespace qubit::algorithms {
 

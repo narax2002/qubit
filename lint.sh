@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-clang-format -i src/*.cpp include/*.hpp examples/*.cpp tests/*.cpp
+find src include examples tests -type f \( -name '*.cpp' -o -name '*.hpp' \) -exec clang-format -i {} +
 
 echo "clang-tidy skipped (not enabled yet)."

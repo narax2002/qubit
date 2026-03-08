@@ -59,15 +59,20 @@ Tests:
 
 ## Public Headers
 
-- `include/qubit.hpp`
-- `include/qubit_gates.hpp`
-- `include/qubit_algorithms.hpp`
+- `include/qubit/qubit.hpp`
+  - umbrella header for the full public API
+- `include/qubit/register.hpp`
+- `include/qubit/exceptions.hpp`
+- `include/qubit/gates/one_qubit.hpp`
+- `include/qubit/gates/multi_qubit.hpp`
+- `include/qubit/algorithms/search.hpp`
+- `include/qubit/algorithms/fourier.hpp`
+- `include/qubit/algorithms/shor.hpp`
 
 ## Minimal Example
 
 ```cpp
-#include "qubit.hpp"
-#include "qubit_gates.hpp"
+#include <qubit/qubit.hpp>
 
 int main() {
     qubit::Qubit q(2);
@@ -83,8 +88,12 @@ int main() {
 
 ## Project Layout
 
-- `include/`: public headers
-- `src/`: library implementation
+- `include/qubit/`: public headers
+- `include/qubit/gates/`: gate-specific public headers
+- `include/qubit/algorithms/`: algorithm-specific public headers
+- `src/gates/`: one-qubit and multi-qubit gate implementations
+- `src/algorithms/`: Grover, Bernstein-Vazirani, QFT/FFT/IFFT, and Shor implementations
+- `src/`: core register implementation
 - `examples/`: small runnable examples
 - `tests/`: lightweight test executables
 

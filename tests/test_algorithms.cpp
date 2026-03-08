@@ -1,6 +1,4 @@
-#include "qubit_algorithms.hpp"
-#include "qubit_exceptions.hpp"
-#include "qubit_gates.hpp"
+#include "qubit/qubit.hpp"
 #include "test_framework.hpp"
 #include "test_helpers.hpp"
 
