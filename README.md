@@ -26,8 +26,8 @@ Required:
 
 Optional:
 
-- `clang-format`
-  - Used by `./lint.sh`
+- `pre-commit`
+  - Recommended for local formatting and basic file hygiene hooks
 
 There are no external third-party runtime dependencies beyond the standard C++ library.
 
@@ -147,6 +147,18 @@ int main() {
 
 ## Formatting
 
+The repository includes `.clang-format` and `.pre-commit-config.yaml`.
+`.pre-commit-config.yaml` is only a configuration file, so Git will not use it by itself.
+To run hooks automatically or use `pre-commit run`, install the `pre-commit` program first:
+
 ```bash
-./lint.sh
+pipx install pre-commit
+pre-commit install --install-hooks
+pre-commit run --all-files
 ```
+
+With this setup, `pre-commit` manages hook environments for:
+
+- `clang-format` on C++ files under `src/`, `include/`, `examples/`, and `tests/`
+- `cmake-format` on `CMakeLists.txt` and `.cmake` or `.cmake.in` files
+- basic whitespace, YAML, and large-file checks

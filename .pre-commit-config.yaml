@@ -1,0 +1,22 @@
+fail_fast: false
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.6.0
+    hooks:
+      - id: trailing-whitespace
+        args: [--markdown-linebreak-ext=md]
+      - id: end-of-file-fixer
+      - id: check-yaml
+      - id: check-added-large-files
+
+  - repo: https://github.com/cheshirekow/cmake-format-precommit
+    rev: v0.6.13
+    hooks:
+      - id: cmake-format
+        files: (^|/)(CMakeLists\.txt|.*\.cmake(\.in)?)$
+
+  - repo: https://github.com/pre-commit/mirrors-clang-format
+    rev: v14.0.5
+    hooks:
+      - id: clang-format
+        files: ^(src|include|examples|tests)/.*\.(cpp|hpp)$
